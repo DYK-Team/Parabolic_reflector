@@ -24,17 +24,18 @@ KEY FEATURES:
     
     Real-world results of signal enhancement and performance testing.
 
-GETTING STARTED
+GETTING STARTED:
 
 1. Clone the repository:
    
-  git clone https://github.com/DYK-Team/Parabolic_reflector.git
+    git clone https://github.com/DYK-Team/Parabolic_reflector.git
 
 2. Set up Python environment:
    
-  pip install numpy csv
+    pip install numpy csv
 
-Run calculations:
+3. Run calculations:
 
-  Modify the Parabolic_reflector.py or Sphere.py script with your desired parameters for the reflector or sphere radius, focal length, and number of petals.
-  Use the generated profiles for cutting the petals and assembling the reflector.
+    Modify the Parabolic_reflector.py or Sphere.py script with your desired parameters for the reflector or sphere radius, focal length, and number of petals.
+  
+    Use the generated profiles for cutting the petals and assembling the reflector.
