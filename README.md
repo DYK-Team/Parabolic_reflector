@@ -16,7 +16,7 @@ KEY FEATURES:
     
   Customization:
   
-    Adaptable for various reflector sizes and materials such as cardboard, plywood, or composites.
+    Adaptable for various reflector sizes and materials.
     
     Easy-to-follow assembly and installation steps for use in attic spaces.
     
