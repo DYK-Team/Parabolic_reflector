@@ -10,7 +10,7 @@ KEY FEATURES:
     
     Instructions for constructing the protective spherical housing for the reflector.
     
-    Python code to generate the reflector’s profile, cut templates, and calculate signal gain.
+    Python codes to generate the reflector’s and sphere's petal profiles.
     
   Customization:
   
@@ -38,4 +38,4 @@ GETTING STARTED:
 
     Modify the Parabolic_reflector.py or Sphere.py script with your desired parameters for the reflector or sphere radius, focal length, and number of petals.
   
-    Use the generated profiles for cutting the petals and assembling the reflector.
+    Use the generated profiles for cutting the petals and assembling the reflector or sphere.
