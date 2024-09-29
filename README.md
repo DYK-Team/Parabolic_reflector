@@ -6,11 +6,13 @@ KEY FEATURES:
 
   Design & Construction:
   
-    Detailed algorithm for cutting parabolic reflector segments (petals) from different materials.
-    
-    Instructions for constructing the protective spherical housing for the reflector.
+    Detailed algorithms for cutting parabolic reflector and sphere segments (petals) from different materials.
     
     Python codes to generate the reflector’s and sphere's petal profiles.
+
+    Instructions for constructing the protective spherical housing for the reflector.
+
+    Instructions for selecting 4G modems and MIMO/SISO feeds. 
     
   Customization:
   
@@ -36,6 +38,6 @@ GETTING STARTED:
 
 3. Run calculations:
 
-    Modify the Parabolic_reflector.py or Sphere.py script with your desired parameters for the reflector or sphere radius, focal length, and number of petals.
+    Modify the Parabolic_reflector.py or Sphere.py script with your desired parameters.
   
     Use the generated profiles for cutting the petals and assembling the reflector or sphere.
