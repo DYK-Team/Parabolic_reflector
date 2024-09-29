@@ -16,12 +16,25 @@ KEY FEATURES:
   
     Adaptable for various reflector sizes and materials such as cardboard, plywood, or composites.
     
-    Easy-to-follow assembly and installation steps for use in attic spaces or on poles.
+    Easy-to-follow assembly and installation steps for use in attic spaces.
     
   Signal Optimization:
   
     Guidance for selecting the optimal azimuth angle based on geographic location and nearest cellular towers.
     
     Real-world results of signal enhancement and performance testing.
-    
 
+GETTING STARTED
+
+1. Clone the repository:
+   
+  git clone https://github.com/DYK-Team/Parabolic_reflector.git
+
+2. Set up Python environment:
+   
+  pip install numpy csv
+
+Run calculations:
+
+  Modify the Parabolic_reflector.py or Sphere.py script with your desired parameters for the reflector or sphere radius, focal length, and number of petals.
+  Use the generated profiles for cutting the petals and assembling the reflector.
