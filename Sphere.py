@@ -1,5 +1,5 @@
 #
-# Algorithm for cutting out petals for a sphere
+# Algorithm for cutting the petals for a sphere
 #
 # Dmitriy Makhnovskiy, September 2024
 #
@@ -11,7 +11,7 @@ pi = np.pi  # pi-constant 3.1415....
 
 # Design parameters
 R = 1000.0  # dish radius; your units (mm, cm, or m)
-N = 10  # number of petals used for cutting out the sphere
+N = 10  # number of petals used for the sphere
 M = 50  # number of points on the petal template for drawing its profile
 
 # Calculated parameters
