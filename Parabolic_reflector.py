@@ -1,5 +1,5 @@
 #
-# Algorithm for cutting out a parabolic reflector
+# Algorithm for cutting out petals for a parabolic reflector
 #
 # Dmitriy Makhnovskiy, August 2024
 #
@@ -101,7 +101,7 @@ for i in range(1, M-1):
 data = np.column_stack((l, r, D, eff, q, s, w))
 header = ['l', 'r', 'D', 'eff', 'q', 's', 'w']
 
-with open('Profile_data.csv', 'w', newline='') as csv_file:
+with open('Parabolic_profile_data.csv', 'w', newline='') as csv_file:
     writer = csv.writer(csv_file)
     writer.writerow(header)
     writer.writerows(data)
