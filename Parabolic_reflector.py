@@ -1,5 +1,5 @@
 #
-# Algorithm for cutting out petals for a parabolic reflector
+# Algorithm for cutting the petals for a parabolic reflector
 #
 # Dmitriy Makhnovskiy, August 2024
 #
@@ -15,7 +15,7 @@ units = 'mm'  # your length units: mm, cm, m (use small letters)
 # For R and f use the same units: mm, cm, or m
 R = 500.0  # dish radius
 f = 500.0  # focus length
-N = 10  # number of petals used for cutting out the parabolic reflector
+N = 10  # number of petals used for the parabolic reflector
 M = 50  # number of points on the petal template for drawing its profile
 eps = 1.0e-10  # calculation precision of the roots of the non-linear equation
 # The minimum and maximum frequencies used for the communication, for example, those used for 4G LTE
