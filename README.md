@@ -1,6 +1,6 @@
 PARABOLIC REFLECTOR FOR 4G INTERNET ACCESS
 
-This project demonstrates how to build a custom parabolic reflector to enhance 4G internet connectivity in rural or remote areas. The reflector design is based on a self-made structure using readily available materials, with the goal of improving signal reception using a 4G modem and feed antenna. For more details refer to the report file Parabolic_reflector_RU.pdf (Russian) or Parabolic_reflector_Eng.pdf (English). 
+This project demonstrates how to build a custom parabolic reflector to enhance 4G internet connectivity in rural or remote areas. The reflector design is based on a self-made structure using readily available materials, with the goal of improving signal reception using a 4G modem and feed antenna. For more details refer to the report file Parabolic_reflector_Ru.pdf (Russian) or Parabolic_reflector_Eng.pdf (English). 
 
 KEY FEATURES:
 
