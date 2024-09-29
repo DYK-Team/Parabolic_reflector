@@ -81,10 +81,10 @@ eff[M - 1] = theta / (2.0 * np.sqrt(1.0 + 4.0 * a**2 * R**2))
 q = [0.0] * M  # meridian displacements with respect to the l-points
 q[M - 1] = D[M - 1] * (1.0 - np.cos(eff[M - 1]))
 
-s = [0.0] * M # array of the meridian coordinates
+s = [0.0] * M  # array of the meridian coordinates
 s[M - 1] = l[M - 1] - q[M - 1]
 
-w = [0.0 for i in range (M)]  # array of the widths corresponding to the array of s
+w = [0.0] * M  # array of the widths corresponding to the array of s
 w[M - 1] = D[M - 1] * np.sin(eff[M - 1])
 
 for i in range(1, M-1):
