@@ -6,7 +6,7 @@ KEY FEATURES:
 
   Design & Construction:
   
-    Detailed algorithms for cutting parabolic reflector and sphere segments (petals) from different materials.
+    Detailed algorithms for cutting parabolic reflector and sphere petals.
     
     Python codes to generate the reflector’s and sphere's petal profiles.
 
