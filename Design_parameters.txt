@@ -1,0 +1,13 @@
+Dish radius = 500.0 mm
+Dish height = 125.0 mm
+Focus length of the reflector= 500.0 mm
+Petal length = 520.1144097172755 mm
+Number of petals = 10
+Petal radius of curvature = 559.0169943749474 mm
+Minimum frequency = 0.9 GHz
+Maximum frequency = 2.6 GHz
+Minimum wavelength = 0.11530479153846154 m
+Maximum wavelength = 0.3331027311111111 m
+Reflector efficiency = 0.6
+Minimum antenna gain = 17.27294608794706 dB
+Maximum antenna gain = 26.487562858576922 dB
