@@ -8,7 +8,7 @@ KEY FEATURES:
   
     Detailed algorithms for cutting parabolic reflector and sphere petals.
     
-    Python codes to generate the reflector’s and sphere's petal profiles.
+    Python codes to generate the reflector’s (Parabolic_reflector.py) and sphere's (Sphere.py) petal profiles.
 
     Instructions for constructing the protective spherical housing for the reflector.
 
