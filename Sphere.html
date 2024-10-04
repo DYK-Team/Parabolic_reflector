@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spherical Petal Design</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input {
+            margin: 5px 0;
+            display: block;
+        }
+        button {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spherical Petal Design</h1>
+    
+    <label for="R">Dish Radius (R):</label>
+    <input type="number" id="R" placeholder="Enter Dish Radius (R)" step="0.1">
+    
+    <label for="N">Number of Petals (N):</label>
+    <input type="number" id="N" placeholder="Enter Number of Petals (N)" step="1">
+    
+    <label for="M">Number of Points on Petal (M):</label>
+    <input type="number" id="M" placeholder="Enter Number of Points (M)" step="1">
+    
+    <button id="downloadBtn">Generate and Download CSV</button>
+    
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            // Get input values
+            const R = parseFloat(document.getElementById('R').value);
+            const N = parseInt(document.getElementById('N').value);
+            const M = parseInt(document.getElementById('M').value);
+
+            // Check if any of the inputs are empty or invalid
+            if (isNaN(R) || isNaN(N) || isNaN(M) || R <= 0 || N <= 0 || M <= 0) {
+                alert('Please enter valid positive values for R, N, and M.');
+                return; // Do nothing if values are invalid
+            }
+
+            // Calculate angular width and petal length
+            const pi = Math.PI;
+            const theta = 2.0 * pi / N;  // angular width of the petal
+            const L = pi * R / 2.0;      // petal length
+
+            // Initialize arrays
+            const l = new Array(M).fill(0);
+            const r = new Array(M).fill(0);
+            const eff = new Array(M).fill(0);
+            const q = new Array(M).fill(0);
+            const s = new Array(M).fill(0);
+            const w = new Array(M).fill(0);
+
+            // Set the last points
+            l[M - 1] = L;
+            r[M - 1] = R;
+            s[M - 1] = L;
+            w[M - 1] = theta * R / 2.0;
+
+            // Loop through the points and calculate the values
+            for (let i = 0; i < M - 1; i++) {
+                const length = i * L / (M - 1);
+                l[i] = length;
+                r[i] = R * Math.sin(length / R);
+                const sqroot = Math.sqrt(R ** 2 - r[i] ** 2);
+                eff[i] = theta * sqroot / (2.0 * R);
+                q[i] = r[i] * (1.0 - Math.cos(eff[i]) - eff[i] ** 2 / 2.0) / sqroot +
+                        r[i] * theta ** 2 * sqroot / (8.0 * R);
+                s[i] = l[i] - q[i];
+                w[i] = r[i] * (Math.sin(eff[i]) - eff[i]) / sqroot + r[i] * theta / 2.0;
+            }
+
+            // Prepare the CSV data
+            let csvContent = 'l, r, eff, q, s, w\n';
+            for (let i = 0; i < M; i++) {
+                csvContent += `${l[i].toFixed(2)}, ${r[i].toFixed(2)}, ${eff[i].toFixed(4)}, ${q[i].toFixed(4)}, ${s[i].toFixed(2)}, ${w[i].toFixed(2)}\n`;
+            }
+
+            // Create a Blob from the CSV data
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+
+            // Create a temporary link and trigger download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Spherical_profile_data.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);  // Free up memory
+        });
+    </script>
+</body>
+</html>
