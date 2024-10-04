@@ -1,6 +1,8 @@
 PARABOLIC REFLECTOR FOR 4G INTERNET ACCESS
 
-This project demonstrates how to build a custom parabolic reflector to enhance 4G internet connectivity in rural or remote areas. The reflector design is based on a self-made structure using readily available materials, with the goal of improving signal reception using a 4G modem and MIMO/SISO feed antenna. For more details refer to the report file Parabolic_reflector_Ru.pdf (Russian) or Parabolic_reflector_Eng.pdf (English). 
+This project demonstrates how to build a custom parabolic reflector to enhance 4G internet connectivity in rural or remote areas. The reflector design is based on a self-made structure using readily available materials, with the goal of improving signal reception using a 4G modem and MIMO/SISO feed antenna. For more details refer to the report file Parabolic_reflector_Ru.pdf (Russian) or Parabolic_reflector_Eng.pdf (English).
+
+Based on the Python code templates (Sphere.py and Parabolic_reflector.py), the AI ChatGPT-4 generated JavaScript code with a graphical user interface (GUI) that is accessible in a web browser: Sphere.html and Parabolic_reflector.html. To run the program, simply click on the file and allow your browser to open the corresponding webpage, where you can input the parameters for the paraboloid or sphere. To avoid errors when entering parameters, switch your keyboard to the English layout. Since the frequencies may be decimal numbers (e.g., 0.9 GHz), please use a period "." to input non-integer values.
 
 KEY FEATURES:
 
