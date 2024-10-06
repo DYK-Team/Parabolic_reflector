@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laser Cutting Profile with Arc Closure</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input, button {
+            display: block;
+            margin: 10px 0;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Generate Parabolic Profile with Arc Closure</h1>
+
+    <label for="csvFile">Upload "Spherical_profile_data.csv" with half-profile data:</label>
+    <input type="file" id="csvFile" accept=".csv">
+
+    <label for="laserDiameter">Enter laser beam diameter (same units as profile):</label>
+    <input type="number" id="laserDiameter" placeholder="Enter beam diameter">
+
+    <label for="M">Enter number of points on the arc (M):</label>
+    <input type="number" id="M" placeholder="Enter number of points on the arc" value="100">
+
+    <label for="feedRate">Enter cutting speed (mm/min):</label>
+    <input type="number" id="feedRate" placeholder="Enter speed (default: 1000)" value="1000">
+
+    <label for="laserPower">Set laser power (%):</label>
+    <input type="range" id="laserPower" min="0" max="100" value="100">
+
+    <label for="laserHeight">Set laser lift height (mm):</label>
+    <input type="number" id="laserHeight" placeholder="Enter height (default: 5 mm)" value="5">
+
+    <label for="laserDelayStart">Set laser start delay (ms):</label>
+    <input type="number" id="laserDelayStart" placeholder="Enter delay (default: 0 ms)" value="0">
+
+    <label for="laserDelayEnd">Set laser end delay (ms):</label>
+    <input type="number" id="laserDelayEnd" placeholder="Enter delay (default: 0 ms)" value="0">
+
+    <label for="laserPasses">Enter number of passes:</label>
+    <input type="number" id="laserPasses" placeholder="Enter number of passes (default: 1)" value="1">
+
+    <button id="generateGCode">Generate G-code and Visualize Profile</button>
+
+    <h3>Profile Visualization:</h3>
+    <canvas id="profileCanvas" width="500" height="500"></canvas>
+
+    <!-- Placeholder for download link -->
+    <div id="downloadLink"></div>
+
+    <script>
+        document.getElementById('generateGCode').addEventListener('click', function() {
+            const csvFile = document.getElementById('csvFile').files[0];
+            const laserDiameter = parseFloat(document.getElementById('laserDiameter').value);
+            const feedRate = parseFloat(document.getElementById('feedRate').value);
+            const laserPower = parseFloat(document.getElementById('laserPower').value);
+            const laserHeight = parseFloat(document.getElementById('laserHeight').value);
+            const laserDelayStart = parseFloat(document.getElementById('laserDelayStart').value);
+            const laserDelayEnd = parseFloat(document.getElementById('laserDelayEnd').value);
+            const laserPasses = parseInt(document.getElementById('laserPasses').value);
+            const M = parseInt(document.getElementById('M').value);  // Number of points on the arc
+
+            if (!csvFile) {
+                alert('Please upload the "Spherical_profile_data.csv" file.');
+                return;
+            }
+
+            if (isNaN(laserDiameter) || laserDiameter <= 0) {
+                alert('Please enter a valid laser beam diameter.');
+                return;
+            }
+
+            if (isNaN(M) || M <= 10) {
+                alert('Please enter a valid number of points (M > 10).');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const csvData = event.target.result;
+                const lines = csvData.split('\n');
+                const xCoords = [];  // 6th column (X axis)
+                const yCoords = [];  // 7th column (Y axis)
+                let effmax, Dmax, lmax;
+
+                // Parse the CSV data, skipping the header (first line)
+                for (let i = 1; i < lines.length; i++) {  // Skip the header row
+                    const columns = lines[i].split(',');
+                    if (columns.length >= 7) {  // Ensure there are enough columns
+                        const x = parseFloat(columns[5]);  // 6th column (index 5)
+                        const y = parseFloat(columns[6]);  // 7th column (index 6)
+                        const eff = parseFloat(columns[3]);  // 4th column (eff)
+                        const D = parseFloat(columns[2]);  // 3rd column (D)
+                        const l = parseFloat(columns[0]);  // 1st column (l)
+
+                        if (!isNaN(x) && !isNaN(y) && !isNaN(eff)) {
+                            xCoords.push(x);
+                            yCoords.push(y + laserDiameter / 2);  // Compensate laser burn by adding half diameter
+                            lmax = l;  // Last value in the 1st column
+                            Dmax = D + laserDiameter / 2;  // Last value in the 3rd column
+                            effmax = eff;  // Last value in the 4th column
+                        }
+                    }
+                }
+
+                // Check if data is valid
+                if (xCoords.length === 0 || yCoords.length === 0) {
+                    alert('No valid data found in the file.');
+                    return;
+                }
+
+                // Create arrays for the arc closure
+                const arcXCoords = [];
+                const arcYCoords = [];
+
+                // Algorithm to calculate arc points
+                for (let i = 0; i < M; i++) {
+                    const eff = effmax - (2.0 * effmax * i) / (M - 1);
+                    const arcX = Dmax * Math.cos(eff) + lmax - Dmax;
+                    const arcY = Dmax * Math.sin(eff);
+                    arcXCoords.push(arcX);
+                    arcYCoords.push(arcY);
+                }
+
+                // Create arrays for the full profile (including arc and mirrored points)
+                const fullXCoords = [...xCoords];
+                const fullYCoords = [...yCoords];
+
+                // Add arc points to close the profile
+                fullXCoords.push(...arcXCoords);
+                fullYCoords.push(...arcYCoords);
+
+                // Mirror the profile by reflecting relative to X-axis (keep X the same and reverse Y)
+                for (let i = xCoords.length - 1; i >= 0; i--) {
+                    fullXCoords.push(xCoords[i]);  // X-axis stays the same
+                    fullYCoords.push(-yCoords[i]); // Reflect Y relative to the X-axis
+                }
+
+                // Calculate scaling factors to fit the profile into the canvas
+                const minX = Math.min(...fullXCoords);
+                const maxX = Math.max(...fullXCoords);
+                const minY = Math.min(...fullYCoords);
+                const maxY = Math.max(...fullYCoords);
+
+                const rangeX = maxX - minX;
+                const rangeY = maxY - minY;
+
+                const canvas = document.getElementById('profileCanvas');
+                const ctx = canvas.getContext('2d');
+
+                // Clear the canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Scale the profile to fit into the canvas (maintaining aspect ratio)
+                const scale = Math.min(canvas.width / rangeX, canvas.height / rangeY) * 0.95;  // Adjust scale to fill canvas
+                const offsetX = canvas.width / 2 - ((maxX + minX) / 2) * scale;
+                const offsetY = canvas.height / 2 + ((maxY + minY) / 2) * scale;
+
+                // Draw the profile on the canvas
+                ctx.beginPath();
+                ctx.moveTo(offsetX + fullXCoords[0] * scale, offsetY - fullYCoords[0] * scale); // Start at the first point
+                for (let i = 1; i < fullXCoords.length; i++) {
+                    ctx.lineTo(offsetX + fullXCoords[i] * scale, offsetY - fullYCoords[i] * scale); // Draw each segment
+                }
+                ctx.closePath(); // Close the path to complete the profile
+                ctx.stroke(); // Outline the profile
+
+                // Generate G-code
+                let gcode = "G21 ; Set units to mm\n";
+                gcode += `G90 ; Absolute positioning\n`;
+                gcode += `S${laserPower} ; Set laser power to ${laserPower}%\n`;
+
+                for (let pass = 0; pass < laserPasses; pass++) {
+                    gcode += `G0 Z${laserHeight} ; Raise laser to ${laserHeight} mm\n`;
+                    gcode += `G4 P${laserDelayStart} ; Start delay ${laserDelayStart} ms\n`;
+
+                    gcode += `G0 X${fullXCoords[0].toFixed(4)} Y${fullYCoords[0].toFixed(4)} ; Move to starting point\n`;
+                    gcode += "G1 Z0 ; Lower laser for cutting\n";
+
+                    for (let i = 0; i < fullXCoords.length; i++) {
+                        gcode += `G1 X${fullXCoords[i].toFixed(4)} Y${fullYCoords[i].toFixed(4)} F${feedRate} ; Cutting to (${fullXCoords[i].toFixed(4)}, ${fullYCoords[i].toFixed(4)})\n`;
+                    }
+
+                    gcode += `G4 P${laserDelayEnd} ; End delay ${laserDelayEnd} ms\n`;
+                    gcode += "G0 Z5 ; Raise the laser\n"; // Finish pass
+                }
+
+                gcode += "M05 ; Turn off the laser\n";
+                gcode += "M30 ; End of program\n";
+
+                // Create a download link for the G-code file
+                const blob = new Blob([gcode], { type: "text/plain" });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'Full_paraboloid_profile_gcode.nc';
+                link.innerText = 'Download G-code';
+                
+                // Replace existing link (if any)
+                const downloadLinkDiv = document.getElementById('downloadLink');
+                downloadLinkDiv.innerHTML = '';  // Clear previous link
+                downloadLinkDiv.appendChild(link);
+            };
+
+            reader.readAsText(csvFile);
+        });
+    </script>
+</body>
+</html>
