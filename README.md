@@ -2,7 +2,9 @@ PARABOLIC REFLECTOR FOR 4G INTERNET ACCESS
 
 This project demonstrates how to build a custom parabolic reflector to enhance 4G internet connectivity in rural or remote areas. The reflector design is based on a self-made structure using readily available materials, with the goal of improving signal reception using a 4G modem and MIMO/SISO feed antenna. For more details refer to the report file Parabolic_reflector_Ru.pdf (Russian) or Parabolic_reflector_Eng.pdf (English).
 
-Based on the Python code templates (Sphere.py and Parabolic_reflector.py), the AI ChatGPT-4 generated JavaScript code with a graphical user interface (GUI) that is accessible in a web browser: Sphere.html and Parabolic_reflector.html. To run the program, simply click on the file and allow your browser to open the corresponding webpage, where you can input the parameters for the paraboloid or sphere. To avoid errors when entering parameters, switch your keyboard to the English layout. Since the frequencies may be decimal numbers (e.g., 0.9 GHz), please use a period "." to input non-integer values.
+Based on the Python code templates (Sphere.py and Parabolic_reflector.py), we generated JavaScript codes with graphical user interfaces (GUI) that are accessible in a web browser: Sphere.html and Parabolic_reflector.html. To run the program, simply click on the file and allow your browser to open the corresponding webpage, where you can input the parameters for the paraboloid or sphere. To avoid errors when entering parameters, switch your keyboard to the English layout. Since the frequencies may be decimal numbers (e.g., 0.9 GHz), use a period "." to input non-integer values.
+
+The JavaScript codes along with browser GUIs, used for generating G-files for laser cutting of the petals, are also provided: Cutting_paraboloid_petal.html and Cutting_sphere_petal.html.
 
 KEY FEATURES:
 
@@ -10,7 +12,7 @@ KEY FEATURES:
   
     Detailed algorithms for cutting parabolic reflector and sphere petals.
     
-    Python codes to generate the reflector’s (Parabolic_reflector.py) and sphere's (Sphere.py) petal profiles.
+    Python and JavaScript codes to generate the reflector’s and sphere's petal profiles.
 
     Instructions for constructing the protective spherical housing for the reflector.
 
